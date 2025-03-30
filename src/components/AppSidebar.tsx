@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { KeyRound, ImageIcon } from "lucide-react";
+import { KeyRound, ImageIcon, PanelLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface AppSidebarProps {
@@ -60,7 +60,7 @@ export function AppSidebar({ onApiKeySaved, apiKey }: AppSidebarProps) {
         </div>
       </SidebarHeader>
       
-      {/* Add the rail to make the sidebar retrievable */}
+      {/* Make sure the rail is here to make the sidebar retrievable */}
       <SidebarRail />
       
       <SidebarContent>

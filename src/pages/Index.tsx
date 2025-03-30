@@ -7,6 +7,8 @@ import { generateImages } from "@/services/geminiService";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { ChatInterface } from "@/components/ChatInterface";
+import { ImageIcon } from "lucide-react";
+import { SidebarRetriever } from "@/components/SidebarRetriever";
 
 export type GeneratedImage = {
   url: string;
@@ -68,6 +70,7 @@ const Index = () => {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar onApiKeySaved={handleApiKeySaved} apiKey={apiKey} />
+        <SidebarRetriever />
         
         <SidebarInset className="flex flex-col">
           <div className="flex-1 overflow-auto px-4 py-6">
@@ -84,6 +87,9 @@ const Index = () => {
             
             {!isGenerating && images.length === 0 && (
               <div className="text-center py-16">
+                <div className="flex justify-center mb-6">
+                  <ImageIcon className="h-20 w-20 text-accent" />
+                </div>
                 <h2 className="text-2xl font-semibold mb-2">Enter a prompt to get started</h2>
                 <p className="text-muted-foreground">
                   Describe what you want to see, select styles, and let Gemini 2.0 create images for you
@@ -92,7 +98,7 @@ const Index = () => {
             )}
           </div>
           
-          <div className="mt-auto border-t">
+          <div className="sticky bottom-0 border-t bg-background">
             <ChatInterface onGenerate={handleGenerateImages} />
           </div>
         </SidebarInset>

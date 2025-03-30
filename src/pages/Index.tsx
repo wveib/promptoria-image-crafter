@@ -4,7 +4,9 @@ import { ImageGenForm } from "@/components/ImageGenForm";
 import { ImageGrid } from "@/components/ImageGrid";
 import Navbar from "@/components/Navbar";
 import { Spinner } from "@/components/Spinner";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { ApiKeyInput } from "@/components/ApiKeyInput";
+import { generateImages } from "@/services/geminiService";
 
 export type GeneratedImage = {
   url: string;
@@ -17,40 +19,39 @@ const Index = () => {
   const [images, setImages] = useState<GeneratedImage[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [apiKey, setApiKey] = useState<string | null>(null);
   const { toast } = useToast();
+
+  const handleApiKeySaved = (key: string) => {
+    setApiKey(key);
+  };
 
   const handleGenerateImages = async (
     userPrompt: string,
     styles: string[],
     count: number
   ) => {
+    if (!apiKey) {
+      toast({
+        title: "API Key Required",
+        description: "Please enter your Gemini API key to generate images",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
     setPrompt(userPrompt);
     
     try {
-      // In a real implementation, this would call the Gemini 2.0 API
-      // For now, we'll simulate image generation with a delay
-      setTimeout(() => {
-        const newImages: GeneratedImage[] = [];
-        
-        for (let i = 0; i < count; i++) {
-          const style = styles[Math.floor(Math.random() * styles.length)];
-          newImages.push({
-            url: `https://source.unsplash.com/random/600x400?${encodeURIComponent(userPrompt)}`,
-            style: style,
-            prompt: userPrompt,
-            id: `image-${Date.now()}-${i}`,
-          });
-        }
-        
-        setImages(newImages);
-        setIsGenerating(false);
-        
-        toast({
-          title: "Images Generated!",
-          description: `Created ${count} images based on your prompt.`,
-        });
-      }, 2000);
+      // Call the Gemini service to generate images
+      const newImages = await generateImages(userPrompt, styles, count);
+      setImages(newImages);
+      
+      toast({
+        title: "Images Generated!",
+        description: `Created ${count} images based on your prompt.`,
+      });
     } catch (error) {
       console.error("Error generating images:", error);
       toast({
@@ -58,6 +59,7 @@ const Index = () => {
         description: "An error occurred while generating your images.",
         variant: "destructive",
       });
+    } finally {
       setIsGenerating(false);
     }
   };
@@ -74,6 +76,8 @@ const Index = () => {
           <p className="text-center text-muted-foreground text-lg mb-8">
             Create stunning AI-generated images in various styles with a simple prompt
           </p>
+          
+          {!apiKey && <ApiKeyInput onApiKeySaved={handleApiKeySaved} />}
           
           <ImageGenForm onGenerate={handleGenerateImages} />
         </div>
@@ -93,7 +97,7 @@ const Index = () => {
           <div className="text-center py-16">
             <h2 className="text-2xl font-semibold mb-2">Enter a prompt to get started</h2>
             <p className="text-muted-foreground">
-              Describe what you want to see, select styles, and let AI create images for you
+              Describe what you want to see, select styles, and let Gemini 2.0 create images for you
             </p>
           </div>
         )}

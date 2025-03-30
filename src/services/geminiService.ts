@@ -1,9 +1,6 @@
 
 import { GeneratedImage } from "@/pages/Index";
 
-// This would typically come from environment variables
-const GEMINI_API_KEY = "YOUR_API_KEY"; // Replace with actual key or input mechanism
-
 export async function generateImages(
   prompt: string, 
   styles: string[], 
@@ -34,16 +31,18 @@ export async function generateImages(
   });
 }
 
-// This function is a placeholder for the actual implementation that would use @google/genai
-// It shows how you would structure the code to call the Gemini API
+// This function demonstrates how the actual implementation would work with @google/genai
+// To use it, uncomment and modify the code below, and install the package:
+// npm install @google/genai
 export async function generateImagesWithGemini(
   prompt: string,
-  style: string
+  style: string,
+  apiKey: string
 ): Promise<string> {
   try {
     // In a real implementation:
     // const { GoogleGenAI } = require("@google/genai");
-    // const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+    // const ai = new GoogleGenAI({ apiKey });
     
     // Construct a prompt that includes the style request
     const enhancedPrompt = `Create a ${style} style image of: ${prompt}`;
@@ -61,7 +60,7 @@ export async function generateImagesWithGemini(
     // for (const part of response.candidates[0].content.parts) {
     //   if (part.inlineData) {
     //     const imageData = part.inlineData.data;
-    //     // In a real implementation, you would save this to a server or convert to a data URL
+    //     // In a real implementation, convert base64 to URL or blob
     //     imageUrl = `data:image/png;base64,${imageData}`;
     //   }
     // }

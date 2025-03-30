@@ -1,12 +1,12 @@
 
 import React, { useState } from "react";
-import { ImageGenForm } from "@/components/ImageGenForm";
 import { ImageGrid } from "@/components/ImageGrid";
 import { Spinner } from "@/components/Spinner";
 import { useToast } from "@/hooks/use-toast";
 import { generateImages } from "@/services/geminiService";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { ChatInterface } from "@/components/ChatInterface";
 
 export type GeneratedImage = {
   url: string;
@@ -69,10 +69,8 @@ const Index = () => {
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar onApiKeySaved={handleApiKeySaved} apiKey={apiKey} />
         
-        <SidebarInset className="px-4 py-6">
-          <div className="max-w-4xl mx-auto">
-            <ImageGenForm onGenerate={handleGenerateImages} />
-            
+        <SidebarInset className="flex flex-col">
+          <div className="flex-1 overflow-auto px-4 py-6">
             {isGenerating ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <Spinner size="lg" />
@@ -92,6 +90,10 @@ const Index = () => {
                 </p>
               </div>
             )}
+          </div>
+          
+          <div className="mt-auto border-t">
+            <ChatInterface onGenerate={handleGenerateImages} />
           </div>
         </SidebarInset>
       </div>

@@ -6,7 +6,8 @@ import {
   SidebarHeader,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarTrigger
+  SidebarTrigger,
+  SidebarRail
 } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,9 @@ export function AppSidebar({ onApiKeySaved, apiKey }: AppSidebarProps) {
           <SidebarTrigger />
         </div>
       </SidebarHeader>
+      
+      {/* Add the rail to make the sidebar retrievable */}
+      <SidebarRail />
       
       <SidebarContent>
         <SidebarGroup>

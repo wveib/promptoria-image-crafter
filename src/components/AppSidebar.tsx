@@ -1,8 +1,8 @@
 
 import React from "react";
-import { 
-  Sidebar, 
-  SidebarContent, 
+import {
+  Sidebar,
+  SidebarContent,
   SidebarHeader,
   SidebarGroup,
   SidebarGroupLabel,
@@ -59,17 +59,17 @@ export function AppSidebar({ onApiKeySaved, apiKey }: AppSidebarProps) {
           <SidebarTrigger />
         </div>
       </SidebarHeader>
-      
+
       {/* Make sure the rail is here to make the sidebar retrievable */}
       <SidebarRail />
-      
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center">
             <KeyRound className="h-4 w-4 mr-2" />
             Gemini API Key
           </SidebarGroupLabel>
-          
+
           <div className="px-2 space-y-3">
             {apiKey && (
               <div className="text-xs text-muted-foreground">
@@ -79,7 +79,7 @@ export function AppSidebar({ onApiKeySaved, apiKey }: AppSidebarProps) {
                 </code>
               </div>
             )}
-            
+
             <div className="flex gap-2">
               <Input
                 type="password"
@@ -92,10 +92,10 @@ export function AppSidebar({ onApiKeySaved, apiKey }: AppSidebarProps) {
                 Save
               </Button>
             </div>
-            
+
             <p className="text-xs text-muted-foreground">
               <a
-                href="https://ai.google.dev/"
+                href="https://aistudio.google.com/app/apikey"
                 target="_blank"
                 rel="noreferrer"
                 className="underline hover:text-accent"

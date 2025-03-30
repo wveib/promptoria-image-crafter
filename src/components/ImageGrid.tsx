@@ -13,15 +13,25 @@ interface ImageGridProps {
 
 export function ImageGrid({ images }: ImageGridProps) {
   const handleDownload = (image: GeneratedImage) => {
-    // In a real app, this would trigger an actual download
-    // For this demo, we'll just show a toast
+    const link = document.createElement("a");
+    link.href = image.url;
+    link.download = `${image.prompt.replace(/\s+/g, "_") || "image"}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     toast.success("Image download started");
   };
-
-  const handleShare = (image: GeneratedImage) => {
-    // In a real app, this would open a share dialog
-    // For this demo, we'll just show a toast
-    toast.success("Sharing options opened");
+  const handleShare = async (image: GeneratedImage) => {
+    try {
+      const response = await fetch(image.url);
+      const blob = await response.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({ [blob.type]: blob }),
+      ]);
+      toast.success("Image copied");
+    } catch (error) {
+      toast.error("Failed to copy image");
+    }
   };
 
   return (
